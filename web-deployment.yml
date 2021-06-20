@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-deployment
+  labels:
+    app: web
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template: 
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: apache
+        image: httpd
+        ports:
+        - containerPort: 80 
+        volumeMounts: 
+        - name: log
+          mountPath: /var/log/apache2
+      volumes:
+      - name: log
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service 
+metadata: 
+  name: webserver 
+  labels: 
+    app: web
+spec: 
+  ports:
+  - port: 80 
+    protocol: TCP
+    targetPort: 80 
+  selector: 
+    app: web
