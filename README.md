@@ -29,6 +29,9 @@ That's all for the ELK cluster setup. If you want to test it using the applicati
 
 You can filter the log based on Kubernetes label name and error type.
 
+# setup recording
+![setup reconding ](ELK_setup.gif)
+
 That's all my friends!!! start using your ELK cluster. Give me a star if you like it.
 
 **Happy Learning!!!**
