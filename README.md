@@ -13,11 +13,11 @@ The ELK stack is a popular tool for log aggregation and visualization and it sta
 
 The steps used to set up the ELK stack are:  
 - We start by creating the Elastic component first but before creating/installing the Elastic, we will create the service account which has read access to service, endpoint and  namespaces using `` kubectl apply -f rbac.yml ``  
-- We will step the Elastic cluster now, we will create the statefulset using `` kubectl apply -f elastic.yml``  
+- We will setpup the Elastic cluster now, we will create the statefulset using `` kubectl apply -f elastic.yml``  
 
 - Let create the cluster type elastic service using `` kubectl apply -f elastic-service.yml`` and can be verifed by forwading it ports to local ``kubectl port-forward -n kube-system svc/elasticsearch-logging 9200:9200``. Optinally, you can browse (http://localhost:9200)  
 That's all for the Elastic cluster, now we will deploy the logstash.  
-- Logstash receives the logs and formate them in a way that Elasticsearch understand.  we will deploy the logstash using `` kubectl apply -f logstash-deployment.yml ``  
+- Logstash receives the logs and formate them in a way that Elasticsearch understand.  we will deploy the logstash using `` kubectl apply -f logstash-config.yml && kubectl apply -f logstash-deployment.yml ``  
 
 - Once logstash is deployed successfully, we deploy the filebeat agent to ship the logs to Logstash. We will use the **Daemonset** kind of deployment which ensure that a pod will running on each node. It can be deployed using `` kubectl apply -f filebeat-daemon-set.yml ``  
 - We have come to our end of the deployment, we will deploy the Kibana now for log visualisation using `` kubectl apply -f kibana.yml``. Please note that I have used the **LoadBalancer** service type but you can use **NodePort** type and use the node IP to access from the browser. Since I have setup all on **Minikube** and get the public ip of LoadBalance using ``minikube service kibana-logging -n kube-system`` .   
